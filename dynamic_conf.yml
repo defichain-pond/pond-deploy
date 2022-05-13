@@ -1,0 +1,24 @@
+http:
+  routers:
+    mypond:
+      service: app 
+      rule: Host(`POND_DOMAIN`)
+      tls:
+        certresolver: lets-encrypt
+  services:
+    app:
+      failover:
+        service: main 
+        fallback: backup
+    main:
+      loadBalancer:
+        healthCheck:
+          path: /_actuator/probes/readiness
+          interval: 3s
+          timeout: 3s
+        servers:
+        - url: "http://defi-whale:3000"
+    backup:
+      loadBalancer:
+        servers:
+        - url: "https://ocean.defichain.com"

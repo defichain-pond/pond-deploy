@@ -1,0 +1,63 @@
+version: '2'
+
+services:
+  traefik:
+    image: traefik:v2.7
+    container_name: traefik
+    command:
+      - "--log.level=DEBUG"
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./traefik.toml:/traefik.toml
+      - ./dynamic_conf.yml:/dynamic_conf.yml
+      - ./acme.json:/acme.json
+    networks:
+      - ocean
+
+  defi-blockchain:
+    image: defi/defichain:2.7.0
+    container_name: defi-node
+    restart: always
+    volumes:
+      - ./data:/home/defi/.defi
+    command: >
+      defid
+      -printtoconsole
+      -rpcallowip=0.0.0.0/0
+      -rpcbind=0.0.0.0
+      -rpcuser=whale-rpcuser
+      -rpcpassword=whale-rpcpassword
+      -rpcworkqueue=512
+      -disablewallet=1
+      -txnotokens=0
+      -logtimemicros
+      -txindex=1
+      -acindex=1
+    networks:
+      - ocean
+
+  defi-whale:
+    image: whale
+    container_name: defi-whale
+    restart: always
+    volumes:
+      - ./leveldb:/tmp/db
+    depends_on:
+      - defi-blockchain
+    environment:
+      WHALE_DEFID_URL: http://whale-rpcuser:whale-rpcpassword@defi-blockchain:8554
+      WHALE_NETWORK: mainnet
+      WHALE_DATABASE_PROVIDER: level 
+      WHALE_DATABASE_LEVEL_LOCATION: /tmp/db
+      WHALE_VERSION: v0
+    networks:
+      - ocean
+
+
+networks:
+  ocean:
+    external: true
