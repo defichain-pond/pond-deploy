@@ -18,9 +18,9 @@ services:
     networks:
       - ocean
 
-  defi-blockchain:
-    image: defi/defichain:2.7.0
-    container_name: defi-node
+  pond-node:
+    image: defi/defichain:2.7.1
+    container_name: pond-node
     restart: always
     volumes:
       - ./data:/home/defi/.defi
@@ -40,16 +40,16 @@ services:
     networks:
       - ocean
 
-  defi-whale:
-    image: whale
-    container_name: defi-whale
+  pond-whale:
+    image: public.ecr.aws/birthdayresearch/whale-api:2.45.3
+    container_name: pond-whale
     restart: always
     volumes:
       - ./leveldb:/tmp/db
     depends_on:
-      - defi-blockchain
+      - pond-node
     environment:
-      WHALE_DEFID_URL: http://whale-rpcuser:whale-rpcpassword@defi-blockchain:8554
+      WHALE_DEFID_URL: http://whale-rpcuser:whale-rpcpassword@pond-node:8554
       WHALE_NETWORK: mainnet
       WHALE_DATABASE_PROVIDER: level 
       WHALE_DATABASE_LEVEL_LOCATION: /tmp/db
