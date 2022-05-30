@@ -19,7 +19,7 @@ services:
       - ocean
 
   pond-node:
-    image: defi/defichain:2.7.1
+    image: defi/defichain:2.8.0
     container_name: pond-node
     restart: always
     volumes:
