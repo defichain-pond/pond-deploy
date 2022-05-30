@@ -41,7 +41,7 @@ services:
       - ocean
 
   pond-whale:
-    image: public.ecr.aws/birthdayresearch/whale-api:2.45.3
+    image: ghcr.io/jellyfishsdk/whale-api:2.45.6
     container_name: pond-whale
     restart: always
     volumes:
