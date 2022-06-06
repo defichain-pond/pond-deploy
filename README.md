@@ -25,12 +25,7 @@ cd pond-deploy
 Then, run the following
 
 ```
-export POND_EMAIL=your@email.com
-export POND_DOMAIN=your_pond.domain.com
-sed -i -e "s/POND_EMAIL/${POND_EMAIL}/g" traefik.toml
-sed -i -e "s/POND_DOMAIN/${POND_DOMAIN}/g" dynamic_conf.yml
-mkdir data leveldb
-docker-compose up -d
+. ./setup.sh EMAIL DOMAIN
 ```
 
 ## Contributors

@@ -18,7 +18,7 @@ LOC=$PWD
 DATA_LOC=$LOC/data
 LEVELDB_LOC=$LOC/leveldb
 INDEX="https://snapshots-eu.sanc.ch"
-SNAPSHOT_VERSION="1927451"
+SNAPSHOT_VERSION="latest"
 POND_NODE="pond-node-$SNAPSHOT_VERSION.tar.gz"
 POND_WHALE="pond-whale-$SNAPSHOT_VERSION.tar.gz"
 NETWORK="ocean"
@@ -51,3 +51,7 @@ fi
 
 #start pond
 docker-compose up -d
+if [ $? -ne 0 ]
+then
+    docker compose up -d
+fi
