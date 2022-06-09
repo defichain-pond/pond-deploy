@@ -10,7 +10,7 @@ This is a self-hosted ocean api (https://ocean.defichain.com) that you can deplo
 - Linux VPS
 - Docker installed
 - Docker Compose installed
-- Minimum 100 GB free storage
+- Minimum 200 GB free storage
 - Domain name pointing to the Linux VPS
 
 ## Setup
