@@ -14,7 +14,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./traefik.toml:/traefik.toml
       - ./dynamic_conf.yml:/dynamic_conf.yml
-      - ./acme.json:/acme.json
+      - ./acme.json:/acme.json:rw 
     networks:
       - ocean
 
