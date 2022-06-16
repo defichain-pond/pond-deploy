@@ -41,8 +41,7 @@ services:
       - ocean
 
   pond-whale:
-    # Temporary fix for https://github.com/JellyfishSDK/jellyfish/issues/1532
-    image: ghcr.io/jellyfishsdk/whale-api:88972089d0e439aee173fde0a7fd7cc918c1da79
+    image: ghcr.io/jellyfishsdk/whale-api:2.46.0
     container_name: pond-whale
     restart: always
     volumes:
