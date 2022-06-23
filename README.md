@@ -35,6 +35,7 @@ Then, run the following script.
 ```
 
 ***DOMAIN*** is your custon domain that needs to point to your servier. Something like pond.example-domain.com
+You can verify if the domain name is pointing to your server using following command: ```nslookup -type=A domain_name```
 
 ***EMAIL*** the email is required for the SSL certificate generation. You will get notified when this certificate is being expired. Although the mechanism will automatically renew it for you.
 

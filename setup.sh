@@ -25,15 +25,6 @@ NETWORK="ocean"
 EMAIL=$1
 DOMAIN=$2
 
-# Check if current host is pointing to provided domain name
-if [ $(dig +short myip.opendns.com @resolver1.opendns.com) ==  $(host -t A  $DOMAIN| awk '{print $NF}') ]; then
-        echo "Success: Your domain server \"$DOMAIN\" is pointing to current host."
-else
-        echo "Fail: Please configure your domain server \"$DOMAIN\" to point to current host."
-        exit 1
-
-fi
-
 # Check if Disk space is sufficient for downloading and unpacking snapshots
 df  .| grep -vE '^Filesystem|tmpfs|cdrom' | awk '{ print $4 " " $1 }' | while read output;
 do
