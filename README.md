@@ -39,6 +39,22 @@ You can verify if the domain name is pointing to your server using following com
 
 ***EMAIL*** the email is required for the SSL certificate generation. You will get notified when this certificate is being expired. Although the mechanism will automatically renew it for you.
 
+## Monitoring
+
+You can monitor your Pond environment my checking the url ```https://your_domain.com/_actuator/probes/readiness```. This will return a 2xx return code if all is file. It will fail if pond-node or pond-whale or traeffik or the whole server is down. You can use a service such as UptimeRobot to monitor your service.
+
+Depending on the issue Traefik service will automatically failover to the proper Ocean. ***This will not work if either Traefik or the whole server is down***
+
+## Troubleshooting
+
+1. Is pond-node running?
+
+```docker logs -f pond-node --tail 50```
+
+2. Is pnod-whale running and no errors?
+
+```docker logs -f pond-whale --tail 50```
+
 ## Support
 If you are facing any issues feel free to open either a Github Issue or join us on [Telegram](https://t.me/+lv1Scz8rO7U0OTM0)
 
