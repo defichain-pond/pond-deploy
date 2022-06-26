@@ -4,12 +4,12 @@ set -eu
 
 
 usage() {
-  echo 'Usage: . ./setup.sh <EMAIL> <DOMAIN>'
+  echo 'Usage: . ./setup.sh <EMAIL> <DOMAIN> <RPC_USER> <RPC_PASSWORD>'
   exit
 }
 
 
-if [ "$#" -ne 2 ]
+if [ "$#" -lt 2 ]
 then
   usage
 fi
@@ -24,6 +24,15 @@ POND_WHALE="pond-whale-$SNAPSHOT_VERSION.tar.gz"
 NETWORK="ocean"
 EMAIL=$1
 DOMAIN=$2
+
+# Injecting rpc username and password if supplied by user
+if [ "$#" -eq 4 ]
+then
+  sed -i -e "s/whale-rpcuser/$3/g" $LOC/docker-compose.yml
+  sed -i -e "s/whale-rpcpassword/$4/g" $LOC/docker-compose.yml
+else
+  echo "using default rpc username and password"
+fi
 
 # Check if Disk space is sufficient for downloading and unpacking snapshots
 df  .| grep -vE '^Filesystem|tmpfs|cdrom' | awk '{ print $4 " " $1 }' | while read output;
