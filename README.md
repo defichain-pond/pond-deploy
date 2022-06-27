@@ -40,13 +40,7 @@ You can verify if the domain name is pointing to your server using following com
 ***EMAIL*** the email is required for the SSL certificate generation. You will get notified when this certificate is being expired. Although the mechanism will automatically renew it for you.
 
 ## Security
-It's also possible to add own whale rpc username and password which are optional arguments:
-
-```
-. ./setup.sh EMAIL DOMAIN RPC_USERNAME RPC_PASSWORD
-```
-
-If rpc credentials are not provided Pond whale will use default rpc username and password specified in the [docker-compose](https://github.com/defichain-pond/pond-deploy/blob/main/docker-compose.yml).
+The rpc username and password are generated automatically in [setup.sh](https://github.com/defichain-pond/pond-deploy/blob/main/setup.sh), then will be injected into [docker-compose](https://github.com/defichain-pond/pond-deploy/blob/main/docker-compose.yml).
 
 ## Monitoring
 

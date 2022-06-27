@@ -24,15 +24,12 @@ POND_WHALE="pond-whale-$SNAPSHOT_VERSION.tar.gz"
 NETWORK="ocean"
 EMAIL=$1
 DOMAIN=$2
+RPC_USER=$(openssl rand -base64 48 | cut -c1-12)
+RPC_PASSWORD=$(openssl rand -base64 48 | cut -c1-12)
 
 # Injecting rpc username and password if supplied by user
-if [ "$#" -eq 4 ]
-then
-  sed -i -e "s/whale-rpcuser/$3/g" $LOC/docker-compose.yml
-  sed -i -e "s/whale-rpcpassword/$4/g" $LOC/docker-compose.yml
-else
-  echo "using default rpc username and password"
-fi
+sed -i -e "s/whale-rpcuser/$RPC_USER/g" $LOC/docker-compose.yml
+sed -i -e "s/whale-rpcpassword/$RPC_PASSWORD/g" $LOC/docker-compose.yml
 
 # Check if Disk space is sufficient for downloading and unpacking snapshots
 df  .| grep -vE '^Filesystem|tmpfs|cdrom' | awk '{ print $4 " " $1 }' | while read output;
