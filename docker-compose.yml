@@ -32,7 +32,6 @@ services:
       -rpcuser=whale-rpcuser
       -rpcpassword=whale-rpcpassword
       -rpcworkqueue=512
-      -disablewallet=1
       -txnotokens=0
       -txindex=1
       -acindex=1
