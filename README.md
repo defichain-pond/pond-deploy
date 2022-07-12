@@ -42,6 +42,9 @@ You can verify if the domain name is pointing to your server using following com
 ## Security
 The rpc username and password are generated automatically in [setup.sh](https://github.com/defichain-pond/pond-deploy/blob/main/setup.sh), then will be injected into [docker-compose](https://github.com/defichain-pond/pond-deploy/blob/main/docker-compose.yml).
 
+## Snapshots
+We upload regular snapshots for the defichain node as well as whale DB to https://snapshots-eu.sanc.ch/
+
 ## Monitoring
 
 You can monitor your Pond environment my checking the url ```https://your_domain.com/_actuator/probes/readiness```. This will return a 2xx return code if all is file. It will fail if pond-node or pond-whale or traeffik or the whole server is down. You can use a service such as UptimeRobot to monitor your service.
