@@ -1,0 +1,139 @@
+AWSTemplateFormatVersion: 2010-09-09
+Parameters:
+  InstanceTypeParameter:
+    Type: String
+    Default: t3.medium
+    Description: EC2 instance type
+  WorkstationIp:
+    Type: String
+    Description: The IP address of the workstation that can SSH into the instance.
+  AMI:
+    Type: String
+    Default: ami-0a1ee2fb28fe05df3
+    Description: The Linux AMI to use.
+  Key:
+    Type: String
+    Default: pond-key
+    Description: The key used to access the instance.
+  Domain:
+    Type: String
+    Description: The domain used which points to the ec2 instance public IP.
+  Email:
+    Type: String
+    Description: The email where notifications will be sent.
+Resources:
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      InstanceTenancy: default
+      Tags:
+        - Key: Name
+          Value: Pond VPC
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+  VPCGatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref VPC
+      InternetGatewayId: !Ref InternetGateway
+  SubnetA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: eu-central-1a
+      VpcId: !Ref VPC
+      CidrBlock: 10.0.0.0/24
+      MapPublicIpOnLaunch: true
+  RouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+  InternetRoute:
+    Type: AWS::EC2::Route
+    DependsOn: InternetGateway
+    Properties:
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+      RouteTableId: !Ref RouteTable
+  SubnetARouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref RouteTable
+      SubnetId: !Ref SubnetA
+  InstanceSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: "Internet Group"
+      GroupDescription: "SSH and web traffic in, all traffic out."
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '443'
+          ToPort: '443'
+          CidrIp:  0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '22'
+          ToPort: '22'
+          CidrIp:  !Sub ${WorkstationIp}/32
+      SecurityGroupEgress:
+        - IpProtocol: -1
+          CidrIp: 0.0.0.0/0
+  ElasticIP:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+      InstanceId: !Ref Pond
+  Pond:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      SubnetId: !Ref SubnetA
+      ImageId: !Ref AMI
+      InstanceType:
+        Ref: InstanceTypeParameter
+      KeyName: !Ref Key
+      SecurityGroupIds:
+        - Ref: InstanceSecurityGroup
+      BlockDeviceMappings:
+        - DeviceName: /dev/xvda
+          Ebs:
+            VolumeSize: 200
+      Tags:
+        -
+          Key: Application
+          Value: Pond Server
+        -
+          Key: OS
+          Value: Linux
+        -
+          Key: CloudformationContact
+          Value: "@laghao @sancag"
+        -
+          Key: Purpose
+          Value: Deploy Pond on EC2
+      UserData:
+        Fn::Base64: |
+          #!/bin/bash
+          # Install Docker
+          sudo yum update -y
+          sudo yum install docker -y
+          sudo service docker start
+          sudo usermod -a -G docker ec2-user
+          # Install docker-compose
+          sudo curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
+          # Install git & clone Pond-deploy repo
+          sudo yum install git -y
+          git clone https://github.com/defichain-pond/pond-deploy.git
+          cd pond-deploy
+          # Run Pond
+          . ./setup.sh !Sub ${Email} !Sub ${Domain}         
+
+Outputs:
+  PublicIp:
+    Value:
+      Fn::GetAtt:
+        - Pond
+        - PublicIp
+    Description: Pond's PublicIp Address

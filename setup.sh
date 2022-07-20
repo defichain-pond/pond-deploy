@@ -24,8 +24,8 @@ POND_WHALE="pond-whale-$SNAPSHOT_VERSION.tar.gz"
 NETWORK="ocean"
 EMAIL=$1
 DOMAIN=$2
-RPC_USER=$(openssl rand -base64 48 | cut -c1-12)
-RPC_PASSWORD=$(openssl rand -base64 48 | cut -c1-12)
+RPC_USER=$(openssl rand -hex 48 | cut -c1-12)
+RPC_PASSWORD=$(openssl rand -hex 48 | cut -c1-12)
 
 # Injecting rpc username and password if supplied by user
 sed -i -e "s/whale-rpcuser/$RPC_USER/g" $LOC/docker-compose.yml

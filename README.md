@@ -40,9 +40,11 @@ You can verify if the domain name is pointing to your server using following com
 ***EMAIL*** the email is required for the SSL certificate generation. You will get notified when this certificate is being expired. Although the mechanism will automatically renew it for you.
 
 ## Security
+
 The rpc username and password are generated automatically in [setup.sh](https://github.com/defichain-pond/pond-deploy/blob/main/setup.sh), then will be injected into [docker-compose](https://github.com/defichain-pond/pond-deploy/blob/main/docker-compose.yml).
 
 ## Snapshots
+
 We upload regular snapshots for the defichain node as well as whale DB to https://snapshots-eu.sanc.ch/
 
 ## Monitoring
@@ -60,6 +62,21 @@ Depending on the issue Traefik service will automatically failover to the proper
 2. Is pnod-whale running and no errors?
 
 ```docker logs -f pond-whale --tail 50```
+
+## AWS Cloudformation deployment
+
+For users who want to deploy Pond on AWS they can simply use the AWS Cloudfromation template [template.yml](https://github.com/defichain-pond/pond-deploy/blob/main/template.yml) and deploy it on AWS (Currently we are supporting only eu-central-1 Frankfurt region).
+Follow thse steps to deploy the Cloudformation template on AWS.
+1. Create an [AWS Key pair](https://docs.aws.amazon.com/ground-station/latest/ug/create-ec2-ssh-key-pair.html) to connect to the EC2 instance.
+2. To deploy a Cloudformation template on AWS please follow this [link](https://www.wellarchitectedlabs.com/reliability/200_labs/200_deploy_and_update_cloudformation/1_deploy_infra/#13-deploying-an-aws-cloudformation-stack-to-create-a-simple-vpc).
+3. Specify the stack paramters as shown in the [picture](https://github.com/defichain-pond/pond-deploy/blob/main/cf-stack-variables.png)
+4. Point your DNS to the EC2 instance's public IP
+5. Enjoy Pond!
+
+## AWS Pricing Calculator
+
+The estimated monthly price of Pond deployment including t3.medium EC2 instance will be 58$. A summary of the Pricing calculator can be found in the [Pricing page](https://calculator.aws/#/estimate?id=aa35317f0d930177458d63a860121c1e904cd7be).
+
 
 ## Support
 If you are facing any issues feel free to open either a Github Issue or join us on [Telegram](https://t.me/+lv1Scz8rO7U0OTM0)
