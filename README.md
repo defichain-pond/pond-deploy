@@ -77,6 +77,8 @@ Follow thse steps to deploy the Cloudformation template on AWS.
 
 The estimated monthly price of Pond deployment including t3.medium EC2 instance will be 58$. A summary of the Pricing calculator can be found in the [Pricing page](https://calculator.aws/#/estimate?id=aa35317f0d930177458d63a860121c1e904cd7be).
 
+The price can be brought down substancially if you want a reserved instance with 1 year upfront payment. It goes down to $247 USD / year or *19 USD / month.
+
 
 ## Support
 If you are facing any issues feel free to open either a Github Issue or join us on [Telegram](https://t.me/+lv1Scz8rO7U0OTM0)
