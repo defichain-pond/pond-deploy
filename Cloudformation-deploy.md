@@ -9,7 +9,7 @@
 ## Deployment
 
 Follow thse steps to deploy the Cloudformation template on AWS.
-1. To deploy a Cloudformation template on AWS click on this [link](shorturl.at/bnoRS).
+1. To deploy a Cloudformation template on AWS click on this [link](https://shorturl.at/bnoRS).
 2. Specify the stack paramters as shown in the ![picture](cf-stack-variables.png)
 3. Point your DNS to the EC2 instance's public IP
 4. Enjoy Pond!
