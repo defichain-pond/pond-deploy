@@ -132,8 +132,9 @@ Resources:
           sudo chmod +x /usr/local/bin/docker-compose
           # Install git & clone Pond-deploy repo
           sudo yum install git -y
-          git clone https://github.com/defichain-pond/pond-deploy.git
-          cd pond-deploy
+          git -C /home/ec2-user clone https://github.com/defichain-pond/pond-deploy.git 
+          cd /home/ec2-user/pond-deploy
+          sudo sed -i -e "s/home\/defi/home\/ec2-user\/defi/g" docker-compose.yml
           # Run Pond
           . ./setup.sh !Sub ${Email} !Sub ${Domain}      
           # Signal the status from cfn-init
