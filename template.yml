@@ -87,6 +87,9 @@ Resources:
       InstanceId: !Ref Pond
   Pond:
     Type: 'AWS::EC2::Instance'
+    CreationPolicy: 
+      ResourceSignal:
+        Timeout: PT2H
     Properties:
       SubnetId: !Ref SubnetA
       ImageId: !Ref AMI
@@ -99,6 +102,7 @@ Resources:
         - DeviceName: /dev/xvda
           Ebs:
             VolumeSize: 200
+            VolumeType: gp3
       Tags:
         -
           Key: Application
@@ -115,8 +119,11 @@ Resources:
       UserData:
         Fn::Base64: |
           #!/bin/bash
-          # Install Docker
+          # Update packages
           sudo yum update -y
+          # Install the files and packages from the metadata
+          sudo yum install -y aws-cfn-bootstrap
+          # Install Docker
           sudo yum install docker -y
           sudo service docker start
           sudo usermod -a -G docker ec2-user
@@ -128,7 +135,9 @@ Resources:
           git clone https://github.com/defichain-pond/pond-deploy.git
           cd pond-deploy
           # Run Pond
-          . ./setup.sh !Sub ${Email} !Sub ${Domain}         
+          . ./setup.sh !Sub ${Email} !Sub ${Domain}      
+          # Signal the status from cfn-init
+          /opt/aws/bin/cfn-signal -e $? --stack pond-stack-v2 --resource Pond --region eu-central-1       
 
 Outputs:
   PublicIp:

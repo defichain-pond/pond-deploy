@@ -65,13 +65,9 @@ Depending on the issue Traefik service will automatically failover to the proper
 
 ## AWS Cloudformation deployment
 
-For users who want to deploy Pond on AWS they can simply use the AWS Cloudfromation template [template.yml](https://github.com/defichain-pond/pond-deploy/blob/main/template.yml) and deploy it on AWS (Currently we are supporting only eu-central-1 Frankfurt region).
-Follow thse steps to deploy the Cloudformation template on AWS.
-1. Create an [AWS Key pair](https://docs.aws.amazon.com/ground-station/latest/ug/create-ec2-ssh-key-pair.html) to connect to the EC2 instance.
-2. To deploy a Cloudformation template on AWS please follow this [link](https://www.wellarchitectedlabs.com/reliability/200_labs/200_deploy_and_update_cloudformation/1_deploy_infra/#13-deploying-an-aws-cloudformation-stack-to-create-a-simple-vpc).
-3. Specify the stack paramters as shown in the [picture](https://github.com/defichain-pond/pond-deploy/blob/main/cf-stack-variables.png)
-4. Point your DNS to the EC2 instance's public IP
-5. Enjoy Pond!
+For users who want to deploy Pond on AWS they can simply use the AWS Cloudfromation [template](https://github.com/defichain-pond/pond-deploy/blob/main/template.yml) and deploy it on AWS (Currently we are supporting only eu-central-1 Frankfurt region).
+
+To deploy Pond on AWS you can follow the steps mentionned in [Cloudformation-deploy](https://github.com/defichain-pond/pond-deploy/blob/main/Cloudformation-deploy.md)
 
 ## AWS Pricing Calculator
 
