@@ -132,13 +132,16 @@ Resources:
           sudo chmod +x /usr/local/bin/docker-compose
           # Install git & clone Pond-deploy repo
           sudo yum install git -y
-          git -C /home/ec2-user clone https://github.com/defichain-pond/pond-deploy.git 
+          sudo -u ec2-user git -C /home/ec2-user clone https://github.com/defichain-pond/pond-deploy.git
+          chown 
           cd /home/ec2-user/pond-deploy
-          sudo sed -i -e "s/home\/defi/home\/ec2-user\/defi/g" docker-compose.yml
+          #sudo sed -i -e "s/home\/defi/home\/ec2-user\/defi/g" docker-compose.yml
           # Run Pond
-          . ./setup.sh !Sub ${Email} !Sub ${Domain}      
+          sudo -u ec2-user sh ./setup.sh !Sub ${Email} !Sub ${Domain}      
           # Signal the status from cfn-init
-          /opt/aws/bin/cfn-signal -e $? --stack pond-stack-v2 --resource Pond --region eu-central-1       
+          docker-compose up -d      
+          /opt/aws/bin/cfn-signal -e $? --stack pond-stack-v2 --resource Pond --region eu-central-1 
+
 
 Outputs:
   PublicIp:
