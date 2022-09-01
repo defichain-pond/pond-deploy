@@ -19,7 +19,7 @@ services:
       - ocean
 
   pond-node:
-    image: defi/defichain:2.9.4
+    image: defi/defichain:2.10.0
     container_name: pond-node
     restart: always
     volumes:
@@ -41,7 +41,7 @@ services:
       - ocean
 
   pond-whale:
-    image: ghcr.io/jellyfishsdk/whale-api:2.54.1
+    image: ghcr.io/jellyfishsdk/whale-api:2.56.0
     container_name: pond-whale
     restart: always
     volumes:
